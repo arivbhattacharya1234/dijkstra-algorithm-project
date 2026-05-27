@@ -1,3 +1,30 @@
+import heapq
+
+def dijkstra(graph, start, end):
+    pq = [(0, start, [])]
+    visited = set()
+
+    while pq:
+        cost, node, path = heapq.heappop(pq)
+
+        if node in visited:
+            continue
+
+        visited.add(node)
+        path = path + [node]
+
+        if node == end:
+            return cost, path
+
+        for neighbor in graph.neighbors(node):
+            if neighbor not in visited:
+                edge_weight = graph[node][neighbor]['weight']
+                heapq.heappush(
+                    pq,
+                    (cost + edge_weight, neighbor, path)
+                )
+
+    return float('inf'), []
 import networkx as nx
 import matplotlib.pyplot as plt
 import random
